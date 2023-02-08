@@ -107,7 +107,7 @@ disk {
   disk {
     label = "DATA-DISK2"
 
-    size        = var.data_disk_size2
+    size        = var.data_disk
     datastore_id = data.vsphere_datastore.datastore_data.id
     unit_number = 3
     # thin_provisioned = false
