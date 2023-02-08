@@ -117,7 +117,7 @@ resource "vsphere_virtual_machine" "vm" {
       linux_options {
         
         host_name = format("%s-%d", var.hostname ,count.index +1)
-        domain    = trimsuffix( var.internal_domain, "." )   #trimsuffix( var.internal_domain, "." ) 
+        domain    = trimsuffix( var.internal_domain, "." ) 
       }
       network_interface {
 
@@ -132,13 +132,7 @@ resource "vsphere_virtual_machine" "vm" {
 
 
 
-  # provisioner "local-exec" {
-  #   command = "ansible-playbook -i ${vsphere_virtual_machine.vm[count.index].default_ip_address}, --private-key ~/ansible.key --user ansible ../../ansible/playbooks/common.yml"
-  # }
-  
-  # provisioner "local-exec" {
-  #   command = "ansible-playbook -i ${vsphere_virtual_machine.vm[count.index].default_ip_address}, --private-key ~/ansible.key --user ansible ../../ansible/playbooks/mysql.yml"
-  # }
+
 }
 
 
