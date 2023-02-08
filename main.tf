@@ -132,3 +132,104 @@ locals {
   mydata = zipmap(vsphere_virtual_machine.vm.*.name, vsphere_virtual_machine.vm.*.default_ip_address)
   ndata = join(" ", [for key, value in local.mydata : "${key},${value}"])
 }
+
+
+# data "template_file" "config-vars" {
+#   template = file("${path.module}/templates/cluster-config-vars.template")
+#   vars = {
+#     XX_HOST_IPS_XX = local.ndata
+#     XX_SSH_USER_XX = var.ssh_user
+#     XX_KSVER_XX = var.kubespray_version
+#     XX_K8SVER_XX = var.k8s_version
+#     XX_PXOP_XX = var.px_operator_version
+#     XX_PXSTG_XX = var.px_stg_version
+#     XX_CPH_XX = var.cp_node_count
+#     XX_CLUSTER_NAME_XX = var.cluster_name
+#     XX_PX_SECURITY_XX = var.px_security
+#     }
+# }
+
+# resource "local_file" "cluster-config-vars" {
+#   content  = "${data.template_file.config-vars.rendered}"
+#   filename = "${path.root}/cluster-config-vars"
+# }
+
+# resource "null_resource" "local_setup" {
+#   depends_on = [
+#     vsphere_virtual_machine.vm
+#   ]
+#   provisioner "local-exec" {
+#     command = <<-EOT
+#       cp -p templates/find-kvdb-dev.sh templates/add-node.sh templates/remove-node.sh templates/kvdb-dev.yaml .
+#       cat templates/vars.template > vars
+#       chmod a+x vars
+#       EOT
+#       interpreter = ["/bin/bash", "-c"]
+#       working_dir = path.module
+#   }
+# }
+
+# module "k8s_setup" {
+#   depends_on = [null_resource.local_setup, local_file.cluster-config-vars]
+#   source = "./modules/k8s_setup"
+# }
+
+# module "portworx" {
+#   depends_on = [ module.k8s_setup ]
+#   source = "./modules/portworx"
+# }
+
+# resource "time_sleep" "wait_5_minutes" {
+#   depends_on = [ module.portworx ]
+#   create_duration = "5m"
+# }
+
+# module "portworx_data_services" {
+#   depends_on = [ module.portworx, time_sleep.wait_5_minutes, null_resource.pds_remove  ]
+#   source = "./modules/portworx_data_services"
+#   tenant_id = var.tenant_id
+#   px_operator_version = var.px_operator_version
+#   pds_token = var.pds_token
+#   pds_name = var.pds_name
+#   #helm_version = var.helm_version
+#   account_id = var.account_id
+# }
+
+# data "external" "get_cluster_id" {
+#   depends_on = [ module.k8s_setup ]
+#   program = ["sh", "-c", "/usr/local/bin/kubectl --kubeconfig ./modules/k8s_setup/kube-config-file get namespace kube-system -o jsonpath='{\"{\"}\"cluster-id\": \"{.metadata.uid}\"}'"]
+# }
+
+# locals {
+# extd = data.external.get_cluster_id.result
+# }
+
+# resource "null_resource" "pds_remove" {
+#   triggers = {
+#     deploy_id = local.extd.cluster-id
+#     token_id = var.pds_token
+#     tenant_id = var.tenant_id
+#   }
+
+#   provisioner "local-exec" {
+#     when    = destroy
+#     command = <<-EOT
+#        echo "Waiting for uninstall to finish"
+#        sleep 420
+#        echo "Removing PDS Entry"
+#        bash scripts/rm-pds-entry.sh ${self.triggers.token_id} ${self.triggers.tenant_id} ${self.triggers.deploy_id}
+#       EOT
+#       interpreter = ["/bin/bash", "-c"]
+#       working_dir = path.module
+#   }
+# }
+
+
+
+output "info_vm_ips" {
+  value = vsphere_virtual_machine.vm.*.default_ip_address
+}
+
+output "info_vm_names" {
+  value = vsphere_virtual_machine.vm.*.name
+}
