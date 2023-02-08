@@ -94,12 +94,24 @@ resource "vsphere_virtual_machine" "vm" {
 
   }
 
-    disk {
-    label = "data-DISK"
+disk {
+    label = "DATA-DISK1"
+    size        = 250
+    datastore_id = data.vsphere_datastore.datastore_data.id
     unit_number = 2
-    size  = var.data_disk
-    thin_provisioned = true
+    # thin_provisioned = false
+    # eagerly_scrub = true
+  }
 
+
+  disk {
+    label = "DATA-DISK2"
+
+    size        = var.data_disk_size2
+    datastore_id = data.vsphere_datastore.datastore_data.id
+    unit_number = 3
+    # thin_provisioned = false
+    # eagerly_scrub = true
   }
 
 
