@@ -169,10 +169,10 @@ resource "null_resource" "local_setup" {
   }
 }
 
-# module "k8s_setup" {
-#   depends_on = [null_resource.local_setup, local_file.cluster-config-vars]
-#   source = "./modules/k8s_setup"
-# }
+module "k8s_setup" {
+  depends_on = [null_resource.local_setup, local_file.cluster-config-vars]
+  source = "./modules/k8s_setup"
+}
 
 # module "portworx" {
 #   depends_on = [ module.k8s_setup ]
