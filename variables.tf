@@ -75,12 +75,7 @@ variable "data_disk_size2" {
   
 }
 
-variable "ip" {
-  
-  default = ["10.21.152.164","10.21.152.165"]
-
-
-}
+variable "vm_ip" {}
 
 variable "netmask" {
   default = 24
