@@ -21,8 +21,8 @@ vm_memory = 8384
 vmware_os_template    = "rhel8_packer11082022"
 network = "10.21.152.0"
 netmask = 24
-os_disk    = 50
-data_disk = 50
+os_disk    = 100
+data_disk = 500
 
 os_datastore = "sn1-m70-g01-32-fb-radha-hosts-vol"
 data_datastore = "sn1-m70-g01-32-fb-radha-hosts-vol"

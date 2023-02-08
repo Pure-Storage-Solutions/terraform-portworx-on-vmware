@@ -18,7 +18,7 @@ variable "pds_token" {
 
 variable "pds_name" {
   type = string
-  default = "pds-demo-from-terraform"
+  default = "pds-demo-from-terraform-vm"
   description = "Target Deployment name for cluster in PDS"
 }
 
