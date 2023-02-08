@@ -77,7 +77,6 @@ variable "data_disk_size2" {
 
 variable "ip" {
   
-  type = list
   default = ["10.21.152.164","10.21.152.165"]
 
 
