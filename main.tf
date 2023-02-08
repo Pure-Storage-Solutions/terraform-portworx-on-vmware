@@ -57,7 +57,7 @@ data "vsphere_virtual_machine" "template" {
 resource "vsphere_virtual_machine" "vm" {
   #depends_on = infoblox
   count            = var.nodes_count
-   name     = "${var.hostname}_0${count.index + 1}"
+  name     = "${var.hostname}_0${count.index + 1}"
   resource_pool_id = data.vsphere_resource_pool.pool.id
   datastore_id     = data.vsphere_datastore.datastore_os.id
   num_cpus = var.vm_cpus
@@ -121,7 +121,7 @@ resource "vsphere_virtual_machine" "vm" {
       }
       network_interface {
 
-        ipv4_address = var.ip[count.index]
+        ipv4_address = var.ip[count.index -1]
         ipv4_netmask = var.netmask
       }
        ipv4_gateway    = var.gateway
