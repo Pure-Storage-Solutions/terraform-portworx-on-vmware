@@ -134,40 +134,40 @@ locals {
 }
 
 
-# data "template_file" "config-vars" {
-#   template = file("${path.module}/templates/cluster-config-vars.template")
-#   vars = {
-#     XX_HOST_IPS_XX = local.ndata
-#     XX_SSH_USER_XX = var.ssh_user
-#     XX_KSVER_XX = var.kubespray_version
-#     XX_K8SVER_XX = var.k8s_version
-#     XX_PXOP_XX = var.px_operator_version
-#     XX_PXSTG_XX = var.px_stg_version
-#     XX_CPH_XX = var.cp_node_count
-#     XX_CLUSTER_NAME_XX = var.cluster_name
-#     XX_PX_SECURITY_XX = var.px_security
-#     }
-# }
+data "template_file" "config-vars" {
+  template = file("${path.module}/templates/cluster-config-vars.template")
+  vars = {
+    XX_HOST_IPS_XX = local.ndata
+    XX_SSH_USER_XX = var.ssh_user
+    XX_KSVER_XX = var.kubespray_version
+    XX_K8SVER_XX = var.k8s_version
+    XX_PXOP_XX = var.px_operator_version
+    XX_PXSTG_XX = var.px_stg_version
+    XX_CPH_XX = var.cp_node_count
+    XX_CLUSTER_NAME_XX = var.cluster_name
+    XX_PX_SECURITY_XX = var.px_security
+    }
+}
 
-# resource "local_file" "cluster-config-vars" {
-#   content  = "${data.template_file.config-vars.rendered}"
-#   filename = "${path.root}/cluster-config-vars"
-# }
+resource "local_file" "cluster-config-vars" {
+  content  = "${data.template_file.config-vars.rendered}"
+  filename = "${path.root}/cluster-config-vars"
+}
 
-# resource "null_resource" "local_setup" {
-#   depends_on = [
-#     vsphere_virtual_machine.vm
-#   ]
-#   provisioner "local-exec" {
-#     command = <<-EOT
-#       cp -p templates/find-kvdb-dev.sh templates/add-node.sh templates/remove-node.sh templates/kvdb-dev.yaml .
-#       cat templates/vars.template > vars
-#       chmod a+x vars
-#       EOT
-#       interpreter = ["/bin/bash", "-c"]
-#       working_dir = path.module
-#   }
-# }
+resource "null_resource" "local_setup" {
+  depends_on = [
+    vsphere_virtual_machine.vm
+  ]
+  provisioner "local-exec" {
+    command = <<-EOT
+      cp -p templates/find-kvdb-dev.sh templates/add-node.sh templates/remove-node.sh templates/kvdb-dev.yaml .
+      cat templates/vars.template > vars
+      chmod a+x vars
+      EOT
+      interpreter = ["/bin/bash", "-c"]
+      working_dir = path.module
+  }
+}
 
 # module "k8s_setup" {
 #   depends_on = [null_resource.local_setup, local_file.cluster-config-vars]
