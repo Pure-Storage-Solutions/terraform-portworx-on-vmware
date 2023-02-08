@@ -174,55 +174,55 @@ module "k8s_setup" {
   source = "./modules/k8s_setup"
 }
 
-# module "portworx" {
-#   depends_on = [ module.k8s_setup ]
-#   source = "./modules/portworx"
-# }
+module "portworx" {
+  depends_on = [ module.k8s_setup ]
+  source = "./modules/portworx"
+}
 
-# resource "time_sleep" "wait_5_minutes" {
-#   depends_on = [ module.portworx ]
-#   create_duration = "5m"
-# }
+resource "time_sleep" "wait_5_minutes" {
+  depends_on = [ module.portworx ]
+  create_duration = "5m"
+}
 
-# module "portworx_data_services" {
-#   depends_on = [ module.portworx, time_sleep.wait_5_minutes, null_resource.pds_remove  ]
-#   source = "./modules/portworx_data_services"
-#   tenant_id = var.tenant_id
-#   px_operator_version = var.px_operator_version
-#   pds_token = var.pds_token
-#   pds_name = var.pds_name
-#   #helm_version = var.helm_version
-#   account_id = var.account_id
-# }
+module "portworx_data_services" {
+  depends_on = [ module.portworx, time_sleep.wait_5_minutes, null_resource.pds_remove  ]
+  source = "./modules/portworx_data_services"
+  tenant_id = var.tenant_id
+  px_operator_version = var.px_operator_version
+  pds_token = var.pds_token
+  pds_name = var.pds_name
+  #helm_version = var.helm_version
+  account_id = var.account_id
+}
 
-# data "external" "get_cluster_id" {
-#   depends_on = [ module.k8s_setup ]
-#   program = ["sh", "-c", "/usr/local/bin/kubectl --kubeconfig ./modules/k8s_setup/kube-config-file get namespace kube-system -o jsonpath='{\"{\"}\"cluster-id\": \"{.metadata.uid}\"}'"]
-# }
+data "external" "get_cluster_id" {
+  depends_on = [ module.k8s_setup ]
+  program = ["sh", "-c", "/usr/local/bin/kubectl --kubeconfig ./modules/k8s_setup/kube-config-file get namespace kube-system -o jsonpath='{\"{\"}\"cluster-id\": \"{.metadata.uid}\"}'"]
+}
 
-# locals {
-# extd = data.external.get_cluster_id.result
-# }
+locals {
+extd = data.external.get_cluster_id.result
+}
 
-# resource "null_resource" "pds_remove" {
-#   triggers = {
-#     deploy_id = local.extd.cluster-id
-#     token_id = var.pds_token
-#     tenant_id = var.tenant_id
-#   }
+resource "null_resource" "pds_remove" {
+  triggers = {
+    deploy_id = local.extd.cluster-id
+    token_id = var.pds_token
+    tenant_id = var.tenant_id
+  }
 
-#   provisioner "local-exec" {
-#     when    = destroy
-#     command = <<-EOT
-#        echo "Waiting for uninstall to finish"
-#        sleep 420
-#        echo "Removing PDS Entry"
-#        bash scripts/rm-pds-entry.sh ${self.triggers.token_id} ${self.triggers.tenant_id} ${self.triggers.deploy_id}
-#       EOT
-#       interpreter = ["/bin/bash", "-c"]
-#       working_dir = path.module
-#   }
-# }
+  provisioner "local-exec" {
+    when    = destroy
+    command = <<-EOT
+       echo "Waiting for uninstall to finish"
+       sleep 420
+       echo "Removing PDS Entry"
+       bash scripts/rm-pds-entry.sh ${self.triggers.token_id} ${self.triggers.tenant_id} ${self.triggers.deploy_id}
+      EOT
+      interpreter = ["/bin/bash", "-c"]
+      working_dir = path.module
+  }
+}
 
 
 
