@@ -57,7 +57,7 @@ data "vsphere_virtual_machine" "template" {
 resource "vsphere_virtual_machine" "vm" {
   #depends_on = infoblox
   count            = var.nodes_count
-   name     = "${var.vm_name}_0${count.index + 1}"
+   name     = "${var.hostname}_0${count.index + 1}"
   resource_pool_id = data.vsphere_resource_pool.pool.id
   datastore_id     = data.vsphere_datastore.datastore_os.id
   num_cpus = var.vm_cpus
@@ -116,7 +116,7 @@ resource "vsphere_virtual_machine" "vm" {
     customize {
       linux_options {
         
-        host_name = format("%s-%d", var.vm_name ,count.index +1)
+        host_name = format("%s-%d", var.hostname ,count.index +1)
         domain    = trimsuffix( var.internal_domain, "." )   #trimsuffix( var.internal_domain, "." ) 
       }
       network_interface {
@@ -240,10 +240,10 @@ resource "null_resource" "pds_remove" {
 
 
 
-output "info_bares_ips" {
-  value = equinix_metal_device.baremachines.*.access_public_ipv4
+output "info_vm_ips" {
+  value = vsphere_virtual_machine.vm.*.default_ip_address
 }
 
-output "info_bares_names" {
-  value = equinix_metal_device.baremachines.*.hostname
+output "info_vm_names" {
+  value = vsphere_virtual_machine.vm.*.name
 }
