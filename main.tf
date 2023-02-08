@@ -64,7 +64,7 @@ data "vsphere_virtual_machine" "template" {
 resource "vsphere_virtual_machine" "vm" {
   #depends_on = infoblox
   count            = var.vm_count
-  name     = "${var.vm_name}_0${count.index + 1}"
+  name     = "${var.vm_name}-0${count.index + 1}"
   #hostname = "${var.vm_name}${count.index + 1}"
   resource_pool_id = data.vsphere_resource_pool.pool.id
   datastore_id     = data.vsphere_datastore.datastore_os.id
