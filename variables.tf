@@ -80,7 +80,7 @@ variable "px_security" {
 
 variable "ssh_user" {
   type        = string
-  default     = "root"
+  default     = "ansible"
   description = "Username to connect baremetals"
 }
 
