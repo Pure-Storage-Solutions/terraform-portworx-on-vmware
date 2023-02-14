@@ -12,6 +12,14 @@ This repo helps in creating the Kubernetes cluster with Portworx embedded on var
 ## PreRequisites
 install libffi-devel
 install python3.8
+
+make sure the ansible private key is kept under home directory as 'ansible.key'
+
+export ANSIBLE_HOST_KEY_CHECKING = False
+export ANSIBLE_PRIVATE_KEY_FILE = ~/ansible.key
+
+
+
 Run common playbook to update yum repo
 
 
