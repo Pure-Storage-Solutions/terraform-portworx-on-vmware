@@ -44,7 +44,7 @@ variable "osguest_id" {
 }
 variable "internal_domain" {
   description = "Internal domain name"
-  dedefault = "puretec.purestorage.com."
+  default = "puretec.purestorage.com."
 }
 variable "vm_gateway" {
   description = "Default network gateway for the VM "
@@ -68,7 +68,7 @@ variable "dc" {
 }
 variable "cluster" {
   description = "VMware cluster name"
-  defdefault = "fb-radha-hosts"
+  default = "fb-radha-hosts"
 }
 
 
