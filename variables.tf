@@ -41,6 +41,9 @@ variable "data_datastore" {
 
 }
 
+variable "ansible_key" {
+  
+}
 
 variable "account_id" {
   type = string
