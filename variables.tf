@@ -98,6 +98,11 @@ variable "data_datastore" {
 
 }
 
+variable "ansible_key" {
+  description = "Ansible private key"
+  default = "~/ansible_key"
+}
+
 
 variable "account_id" {
   type = string
