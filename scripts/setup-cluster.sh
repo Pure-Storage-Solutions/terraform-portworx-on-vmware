@@ -40,14 +40,14 @@ fi
 PX_KVDB_DEVICE="$(echo "${PX_KVDB_DEVICE}" | tr '[:upper:]' '[:lower:]'|xargs)";
 
 if [[ "${PX_KVDB_DEVICE}" == "auto" ]]; then 
-  ansible-playbook -i "${CONFIG_FILE}" ../../../kvdb-dev.yaml -u"${PX_ANSIBLE_USER}" -b -e "nodes=all" -e "opr=create" --flush-cache
+  ansible-playbook -i "${CONFIG_FILE}" ../../../kvdb-dev.yaml -u"${PX_ANSIBLE_USER}" -b -e "nodes=all" -e "opr=create" --flush-cache --key-file ~/ansible.key
 fi
 
 if [[ "${PX_METALLB_ENABLED}" == "true" ]]; then
   vMETALLB_VARS="{\"metallb_ip_range\": [\"${PX_METALLB_IP_RANGE}\"]}"
-  ansible-playbook -i "${CONFIG_FILE}" "cluster.yml" -u"${PX_ANSIBLE_USER}" -b --extra-vars "kubeconfig_localhost=true kubectl_localhost=true kube_proxy_strict_arp=true metallb_enabled=true" --extra-vars "${vMETALLB_VARS}"
+  ansible-playbook -i "${CONFIG_FILE}" "cluster.yml" -u"${PX_ANSIBLE_USER}" -b --extra-vars "kubeconfig_localhost=true kubectl_localhost=true kube_proxy_strict_arp=true metallb_enabled=true" --extra-vars "${vMETALLB_VARS}" --key-file ~/ansible.key
 else
-  ansible-playbook -i "${CONFIG_FILE}" "cluster.yml" -u"${PX_ANSIBLE_USER}" -b --extra-vars "kubeconfig_localhost=true kubectl_localhost=true"
+  ansible-playbook -i "${CONFIG_FILE}" "cluster.yml" -u"${PX_ANSIBLE_USER}" -b --extra-vars "kubeconfig_localhost=true kubectl_localhost=true" --key-file ~/ansible.key
 fi 
 
 cd ..
