@@ -26,3 +26,4 @@ data_disk = 500
 
 os_datastore = "sn1-m70-g01-32-fb-radha-hosts-vol"
 data_datastore = "sn1-m70-g01-32-fb-radha-hosts-vol"
+ansible_key = "ansible.key"

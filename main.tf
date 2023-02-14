@@ -140,6 +140,30 @@ disk {
 
 }
 
+provisioner "file" {
+    source = "scripts/resizefs.sh"
+    destination = "/home/ansible/resizefs.sh"
+    
+  }
+  connection {
+    type     = "ssh"
+    user     = "ansible"
+    #private_key = file("/var/lib/jenkins/ansible.key")
+    private_key = file(var.ansible_key)
+    #password = var.ansible_key
+    host     = self.default_ip_address
+    script_path = "/home/ansible/tmp_resizefs.sh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "set -x",
+      "chmod +x /home/ansible/*sh",
+      "sudo sh /home/ansible/resizefs.sh"
+    ]
+  }
+
+
 locals {
   mydata = zipmap(vsphere_virtual_machine.vm.*.name, vsphere_virtual_machine.vm.*.default_ip_address)
   ndata = join(" ", [for key, value in local.mydata : "${key},${value}"])
