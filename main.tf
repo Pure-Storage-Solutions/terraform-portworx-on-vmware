@@ -138,9 +138,7 @@ disk {
     }
   }
 
-}
-
-provisioner "file" {
+  provisioner "file" {
     source = "scripts/resizefs.sh"
     destination = "/home/ansible/resizefs.sh"
     
@@ -162,6 +160,9 @@ provisioner "file" {
       "sudo sh /home/ansible/resizefs.sh"
     ]
   }
+}
+
+
 
 
 locals {
