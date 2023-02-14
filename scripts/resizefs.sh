@@ -18,4 +18,4 @@
 /usr/sbin/xfs_growfs /audit
 /usr/sbin/xfs_growfs /tmp
 /usr/sbin/xfs_growfs /opt
-/usr/sbin/xfs_growfs /root
+/usr/sbin/xfs_growfs /
