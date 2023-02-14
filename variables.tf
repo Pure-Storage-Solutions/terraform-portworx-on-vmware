@@ -1,49 +1,103 @@
 variable "vm_count" {
-
+  description = "Number of VM to buuild"
+  default = 4
 }
 variable "vm_name" {
   type        = string
   description = "Name of VM"
+  default = "pds-vm"
 }
 
-variable "network" {}
-variable "netmask"  {}
-variable "vmware_os_template" {}
-variable "vm_cpus" {}
-variable "vm_memory" {}
+variable "network" {
+  description = "IP subnet to build the VM"
+  default = "10.21.152.0"
+}
+variable "netmask"  {
+  description = "Netmask for the VM subnet"
+  default = 24
+}
+variable "vmware_os_template" {
+  description = "Name of the OS template to clone the VM"
+  default = "rhel8_packer11082022"
+}
+variable "vm_cpus" {
+  description = "Number of CPUs for the  VM"
+  default = 8
+}
+variable "vm_memory" {
+  description = "Memory for the VM"
+  default = 8384
+  }
 
-variable "vm_ip" {}
+variable "vm_ip" {
+  description = "List of IPs to use for the VMs."
+  default = ["10.21.152.164", "10.21.152.165", "10.21.152.168", "10.21.152.169"]
+}
 variable "dns_servers" {
+  description = "List of DNS servers to use"
   type = list
+  default = ["10.21.237.250"]
 }
-variable "osguest_id" {}
-variable "internal_domain" {}
-variable "vm_gateway" {}
-variable "vmSubnet" {}
-variable "os_disk" {}
-variable "data_disk" {}
-variable "dc" {}
-variable "cluster" {}
-variable "vsphere_password" {
-
+variable "osguest_id" {
+  description = "VMware Guest OS id. This will change with OS flavour"
+  default = "rhel8_64Guest"
 }
-
-variable "vsphere_user" {}
+variable "internal_domain" {
+  description = "Internal domain name"
+  dedefault = "puretec.purestorage.com."
+}
+variable "vm_gateway" {
+  description = "Default network gateway for the VM "
+  default = "10.21.152.1"
+}
+variable "vmSubnet" {
+  description = "Name of the VMware subnet configured"
+  default = "VLAN2152"
+}
+variable "os_disk" {
+  description = "Size of the OS disk"
+  default = 200
+}
+variable "data_disk" {
+  description = "Size of the data disk"
+  default = 500
+}
+variable "dc" {
+  description = "VMware DC name"
+  default = ""
+}
+variable "cluster" {
+  description = "VMware cluster name"
+  defdefault = "fb-radha-hosts"
+}
 
 
 variable "vsphere_server" {
+  description = "Vcenter name or IP"
+  default = "10.21.93.100"
 
 }
+
+variable "vsphere_user" {
+  description = "Vcenter Administrator user"
+  default = "unnir"
+}
+
+variable "vsphere_password" {
+  description = "VCenter passsword"
+}
+
 variable "os_datastore" {
+  description = "VMware datastore to create OS disk"
+  default = "sn1-m70-g01-32-fb-radha-hosts-vol"
 
 }
 variable "data_datastore" {
+  description = "VMware datastore to create Data disk"
+  default = "sn1-m70-g01-32-fb-radha-hosts-vol"
 
 }
 
-variable "ansible_key" {
-  
-}
 
 variable "account_id" {
   type = string
