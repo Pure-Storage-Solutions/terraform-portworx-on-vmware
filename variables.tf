@@ -30,7 +30,7 @@ variable "vm_compute" {
       osguest_id  =   string              #"VMware Guest OS id. This will change with OS flavour"
       vm_cpus = number                                   #"Number of CPUs for the  VM"
       vm_memory =  number                             #"Memory for the VM"
-      vm_ip =   list  #"List of IPs to use for the VMs."
+      vm_ip =   list(string)  #"List of IPs to use for the VMs."
       ansible_key =  string              #"Ansible private key"          
 
     }
@@ -56,7 +56,7 @@ variable "vm_network" {
       netmask = number                                  #"Netmask for the VM subnet"
       vm_gateway = string                  #"Default network gateway for the VM "
       vmSubnet  = string                       #"Name of the VMware subnet configured"
-      dns_servers =  list             #"List of DNS servers to use"
+      dns_servers =  list(string)             #"List of DNS servers to use"
       internal_domain = string  #"Internal domain name"
     }
   )
