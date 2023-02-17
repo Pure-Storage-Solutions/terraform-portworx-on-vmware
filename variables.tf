@@ -4,7 +4,7 @@ variable "vcenter_details" {
     {
       vsphere_server = string    #"Vcenter name or IP"
       vsphere_user = string              #"Vcenter Administrator user"
-      vsphere_password = string               #"VCenter passsword"
+
       dc = string                             #"VMware DC name"
       cluster = string          #"VMware cluster name"
     }
@@ -12,13 +12,16 @@ variable "vcenter_details" {
   default = {
     cluster = "fb-radha-hosts"
     dc = ""
-    vsphere_password = ""
     vsphere_server = "10.21.93.100" 
     vsphere_user = "unnir"
   }
   
 }
 
+variable "vsphere_password" {
+  dedescription = "VCenter passsword"
+  
+}
 
 variable "vm_compute" {
   description = "VM compute related inputs"
