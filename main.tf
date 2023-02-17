@@ -18,62 +18,61 @@ terraform {
 ## Configure the vSphere Provider
 
 provider "vsphere" {
-  vsphere_server = var.vsphere_server
-  user           = var.vsphere_user
-  password       = var.vsphere_password
+  vsphere_server = var.vcenter_details.vsphere_server
+  user           = var.vcenter_details.vsphere_user
+  password       = var.vcenter_details.vsphere_password
   #password = data.vault_generic_secret.vcpass.data["tfuser"]
   allow_unverified_ssl = true
 }
 
 ## Build VM
 data "vsphere_datacenter" "datacenter" {
-  name = var.dc
+  name = var.vcenter_details.dc
 }
 
 data "vsphere_datastore" "datastore_os" {
-  name = var.os_datastore
+  name = var.vm_storage.os_datastore
   datacenter_id = data.vsphere_datacenter.datacenter.id
 }
 
 data "vsphere_datastore" "datastore_data" {
-  name = var.data_datastore
+  name = var.vm_storage.data_datastore
   datacenter_id = data.vsphere_datacenter.datacenter.id
 }
 
 data "vsphere_resource_pool" "pool" {
-  name          = "${var.cluster}/Resources"
+  name          = "${var.vcenter_details.cluster}/Resources"
   #name          = "${var.resource_pool}"
   datacenter_id = data.vsphere_datacenter.datacenter.id
 }
 
 data "vsphere_compute_cluster" "cluster" {
-  name          = var.cluster
+  name          = var.vcenter_details.cluster
   datacenter_id = data.vsphere_datacenter.datacenter.id
 }
 
 data "vsphere_network" "network" {
-  name          = var.vmSubnet
+  name          = var.vm_network.vmSubnet
   datacenter_id = data.vsphere_datacenter.datacenter.id
 }
 
 data "vsphere_virtual_machine" "template" {
-  name = var.vmware_os_template
+  name = var.vm_compute.vmware_os_template
   datacenter_id = data.vsphere_datacenter.datacenter.id
 }
 
 resource "vsphere_virtual_machine" "vm" {
   #depends_on = infoblox
-  count            = var.vm_count
-  name     = "${var.vm_name}-0${count.index + 1}"
+  count            = var.vm_compute.vm_count
+  name     = "${var.vm_compute.vm_name}-0${count.index + 1}"
   #hostname = "${var.vm_name}${count.index + 1}"
   resource_pool_id = data.vsphere_resource_pool.pool.id
   datastore_id     = data.vsphere_datastore.datastore_os.id
-  num_cpus = var.vm_cpus
-  memory   = var.vm_memory
+  num_cpus = var.vm_compute.vm_cpus
+  memory   = var.vm_compute.vm_memory
   num_cores_per_socket = 2
   sync_time_with_host = true
-  guest_id = var.osguest_id
-  scsi_controller_count = 4
+  guest_id = var.vm_compute.osguest_id
   #scsi_bus_sharing = "physicalSharing"
 
   network_interface {
@@ -89,7 +88,7 @@ resource "vsphere_virtual_machine" "vm" {
   disk {
     label = "OS-DISK"
     unit_number = 1
-    size  = var.os_disk
+    size  = var.vm_storage.os_disk
     thin_provisioned = true
 
   }
@@ -107,7 +106,7 @@ disk {
   disk {
     label = "DATA-DISK2"
 
-    size        = var.data_disk
+    size        = var.vm_storage.data_disk
     datastore_id = data.vsphere_datastore.datastore_data.id
     unit_number = 3
     # thin_provisioned = false
@@ -123,18 +122,18 @@ disk {
       linux_options {
 
         #host_name = var.vm_name
-        host_name = format("%s-%d", var.vm_name ,count.index +1)
-        domain    = trimsuffix( var.internal_domain, "." )  #"puretec.purestorage.com"
+        host_name = format("%s-%d", var.vm_compute.vm_name ,count.index +1)
+        domain    = trimsuffix( var.vm_network.internal_domain, "." )  #"puretec.purestorage.com"
       }
       network_interface {
         #ipv4_address = phpipam_first_free_address.new_ip[count.index].ip_address
         #ipv4_address = "10.21.152.${164 + count.index}"
-        ipv4_address = var.vm_ip[count.index]
-        ipv4_netmask = var.netmask
+        ipv4_address = var.vm_compute.vm_ip[count.index]
+        ipv4_netmask = var.vm_network.netmask
       }
-       ipv4_gateway    = var.vm_gateway
-       dns_suffix_list = [var.internal_domain]
-       dns_server_list = var.dns_servers
+       ipv4_gateway    = var.vm_network.vm_gateway
+       dns_suffix_list = [var.vm_network.internal_domain]
+       dns_server_list = var.vm_network.dns_servers
     }
   }
 
@@ -147,7 +146,7 @@ disk {
     type     = "ssh"
     user     = "ansible"
     #private_key = file("/var/lib/jenkins/ansible.key")
-    private_key = file(var.ansible_key)
+    private_key = file(var.vm_compute.ansible_key)
     #password = var.ansible_key
     host     = self.default_ip_address
     script_path = "/home/ansible/tmp_resizefs.sh"
