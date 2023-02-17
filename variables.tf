@@ -1,9 +1,21 @@
 variable "vcenter_details" {
-  vsphere_server = "10.21.93.100"     #"Vcenter name or IP"
-  vsphere_user = "unnir"              #"Vcenter Administrator user"
-  vsphere_password = ""               #"VCenter passsword"
-  dc = ""                             #"VMware DC name"
-  cluster = "fb-radha-hosts"          #"VMware cluster name"
+  description = "VMCenter related inputs"
+  type = object(
+    {
+      vsphere_server = string    #"Vcenter name or IP"
+      vsphere_user = string              #"Vcenter Administrator user"
+      vsphere_password = string               #"VCenter passsword"
+      dc = string                             #"VMware DC name"
+      cluster = string          #"VMware cluster name"
+    }
+  )
+  default = {
+    cluster = "fb-radha-hosts"
+    dc = ""
+    vsphere_password = ""
+    vsphere_server = "10.21.93.100" 
+    vsphere_user = "unnir"
+  }
   
 }
 
