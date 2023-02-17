@@ -19,7 +19,7 @@ variable "vcenter_details" {
 }
 
 variable "vsphere_password" {
-  dedescription = "VCenter passsword"
+  description = "VCenter passsword"
   
 }
 

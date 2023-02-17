@@ -20,7 +20,7 @@ terraform {
 provider "vsphere" {
   vsphere_server = var.vcenter_details.vsphere_server
   user           = var.vcenter_details.vsphere_user
-  password       = var.vcenter_details.vsphere_password
+  password       = var.vsphere_password
   #password = data.vault_generic_secret.vcpass.data["tfuser"]
   allow_unverified_ssl = true
 }
