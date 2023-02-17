@@ -9,32 +9,75 @@ variable "vcenter_details" {
 
 
 variable "vm_compute" {
-  vm_count = 4                                  #"Number of VM to build"
-  vm_name = "pds-vmware"                        #"Name of VM"
-  vmware_os_template = "rhel8_packer11082022"   #"Name of the OS template to clone the VM"
-  osguest_id  = "rhel8_64Guest"                 #"VMware Guest OS id. This will change with OS flavour"
-  vm_cpus = 8                                   #"Number of CPUs for the  VM"
-  vm_memory = 8384                              #"Memory for the VM"
-  vm_ip = ["10.21.152.164", "10.21.152.165", "10.21.152.168", "10.21.152.169"]    #"List of IPs to use for the VMs."
-  ansible_key = "~/ansible_key"                  #"Ansible private key"          
+  description = "VM compute related inputs"
+  type = object(
+    {
+      vm_count = number                                  #"Number of VM to build"
+      vm_name = string                     #"Name of VM"
+      vmware_os_template = string   #"Name of the OS template to clone the VM"
+      osguest_id  =   string              #"VMware Guest OS id. This will change with OS flavour"
+      vm_cpus = number                                   #"Number of CPUs for the  VM"
+      vm_memory =  number                             #"Memory for the VM"
+      vm_ip =   list  #"List of IPs to use for the VMs."
+      ansible_key =  string              #"Ansible private key"          
+
+    }
+  )
+  default = {
+    ansible_key = "~/ansible_key"
+    osguest_id = "rhel8_64Guest" 
+    vm_count = 4
+    vm_cpus = 8
+    vm_ip = ["10.21.152.164", "10.21.152.165", "10.21.152.168", "10.21.152.169"]
+    vm_memory = 8384
+    vm_name = "pds-vmware" 
+    vmware_os_template = "rhel8_packer11082022"
+  }
+  
 }
 
 variable "vm_network" {
-  network = "10.21.152.0"                       #"IP subnet to build the VM"
-  netmask = 24                                  #"Netmask for the VM subnet"
-  vm_gateway = "10.21.152.1"                    #"Default network gateway for the VM "
-  vmSubnet  = "VLAN2152"                        #"Name of the VMware subnet configured"
-  dns_servers =  ["10.21.237.250"]              #"List of DNS servers to use"
-  internal_domain = "puretec.purestorage.com."  #"Internal domain name"
+  description = "VM network related inputs"
+  type = object(
+    {
+      network = string                       #"IP subnet to build the VM"
+      netmask = number                                  #"Netmask for the VM subnet"
+      vm_gateway = string                  #"Default network gateway for the VM "
+      vmSubnet  = string                       #"Name of the VMware subnet configured"
+      dns_servers =  list             #"List of DNS servers to use"
+      internal_domain = string  #"Internal domain name"
+    }
+  )
+  default = {
+    dns_servers = ["10.21.237.250"] 
+    internal_domain = "puretec.purestorage.com."
+    netmask = 24
+    network = "10.21.152.0"
+    vmSubnet = "VLAN2152" 
+    vm_gateway = "10.21.152.1"  
+  }
+
 
   
 }
 
 variable "vm_storage" {
-  os_disk = 200                                  #"Size of the OS disk"
-  data_disk = 500                                 #"Size of the data disk"
-  os_datastore = "sn1-m70-g01-32-fb-radha-hosts-vol"  #"VMware datastore to create OS disk"
-  data_datastore = "sn1-m70-g01-32-fb-radha-hosts-vol"  #"VMware datastore to create Data disk"
+  description = "VM storage related inputs"
+  type = object(
+    {
+      os_disk = number                                  #"Size of the OS disk"
+      data_disk = number                                 #"Size of the data disk"
+      os_datastore = string  #"VMware datastore to create OS disk"
+      data_datastore = string  #"VMware datastore to create Data disk"
+    }
+  )
+  default = {
+    data_datastore = "sn1-m70-g01-32-fb-radha-hosts-vol"
+    data_disk = 500
+    os_datastore = "sn1-m70-g01-32-fb-radha-hosts-vol"
+    os_disk = 200
+  }
+
 }
 
 # variable "vsphere_server" {
