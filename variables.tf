@@ -39,7 +39,7 @@ variable "vm_compute" {
     }
   )
   default = {
-    ansible_key = "~/ansible_key"
+    ansible_key = "~/ansible.key"
     osguest_id = "rhel8_64Guest" 
     vm_count = 4
     vm_cpus = 8
