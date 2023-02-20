@@ -9,19 +9,15 @@ Terraform-iac contains step by step guide to provision Kubernetes clusters on pu
 
 This repo helps in creating the Kubernetes cluster with Portworx embedded on various cloud providers such as aws, azure, gcloud with portworx installed
 
-## PreRequisites
+## PreRequisites on the system running the terraform code. 
 install libffi-devel
 install python3.8
 
-make sure the ansible private key is kept under home directory as 'ansible.key'
+#Linux image
+The Linix template we use to build the VM should have authentication method updated to use. If we are using ssh key based authentication, ssh private key should be saved on the system we execute terraform and export the path. If we have saved the ssh key as  'ansible.key' under home directory. 
 
 export ANSIBLE_HOST_KEY_CHECKING=False
 export ANSIBLE_PRIVATE_KEY_FILE=~/ansible.key
-
-
-
-Run common playbook to update yum repo
-
 
 ## License
 
