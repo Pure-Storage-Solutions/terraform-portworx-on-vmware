@@ -2,12 +2,12 @@
 
 # Terraform-iac README
 
-> Infrastructure as Code - Terraform to provision Kubernetes on public cloud environments
+Infrastructure as Code - Terraform to provision Kubernetes on public cloud environments
 
 
-Terraform-iac contains step by step guide to provision Kubernetes clusters on public code using the terraform code (library) and shell scripts
+Terraform-iac contains step by step guide to provision Kubernetes clusters on VMware using the terraform code (library) and shell scripts
 
-This repo helps in creating the Kubernetes cluster with Portworx embedded on various cloud providers such as aws, azure, gcloud with portworx installed
+This repo helps in creating the Kubernetes cluster with Portworx on VMware. 
 
 ## PreRequisites on the system running the terraform code. 
 install libffi-devel
