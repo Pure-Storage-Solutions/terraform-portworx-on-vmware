@@ -2,6 +2,7 @@
 ## Introduction
 The Terraform module automates the end-to-end deployment of Portworx Data Services (PDS) on the VMware. When you run the Terraform module, it first provisions the virtual machines. It then sets up the Kubernetes cluster with Portworx Enterprise as the storage platform. Finally, it integrates the Kubernetes cluster into PDS portal.  After the successful integration, users can select from the database services that are supported in PDS.
 
+<<<<<<< HEAD
 ## Prerequisites
 ## Deploy virtual machines on your Vcenter.
 Each Virtual Machine should have Minimum 8 cpu and 8 GB memory. Also should have at least a minimum of 3 disks: 1 for OS, 1 for KVDB and 1 or more disks for Portworx storage pools. 
@@ -163,7 +164,28 @@ Example-node-04    Ready 	                   <none>                34m     v1.23
 
 14. Verify that the scheduling for master is disabled.
 As seen in the above example, the status of the master node should be **Ready,SchedulingDisabled**
+=======
+# Terraform-iac README
 
+Infrastructure as Code - Terraform to provision Kubernetes on public cloud environments
+
+
+Terraform-iac contains step by step guide to provision Kubernetes clusters on VMware using the terraform code (library) and shell scripts.
+
+This repo helps in creating the Kubernetes cluster with Portworx on VMware. 
+
+## PreRequisites on the system running the terraform code. 
+- install libffi-devel
+- install python3.8
+
+## Linux image
+The Linix template we use to build the VM should have authentication method updated to use. 
+If we are using ssh key based authentication, ssh private key should be saved on the system we execute terraform and export the path. 
+If we have saved the ssh key as  'ansible.key' under home directory. 
+>>>>>>> 7240343368dce51c6cae32ba050f62e88549fe58
+
+- export ANSIBLE_HOST_KEY_CHECKING=False
+- export ANSIBLE_PRIVATE_KEY_FILE=~/ansible.key
 
 15. Verify that Portworx is operational.
 
