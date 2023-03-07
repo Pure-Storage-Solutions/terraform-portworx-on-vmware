@@ -157,8 +157,8 @@ To change these settings, edit the following parameters: 
 ```
 # terraform apply test.out
 ```
-The module provisions the Equinix Metal servers, sets up the Kubernetes cluster with Portworx Enterprise as the storage platform, and integrates the Kubernetes cluster into PDS portal.  
-The whole process might take up to 30 minutes. After completion, the Equinix nodes and their IP addresses are displayed.
+The module provisions the VMs on Vcenter, sets up the Kubernetes cluster with Portworx Enterprise as the storage platform, and integrates the Kubernetes cluster into PDS portal.  
+The whole process might take up to 30 minutes. After completion, the VMs and their IP addresses are displayed.
 
 11. Verify whether the kube-config-file is available:
 ```
