@@ -10,9 +10,9 @@ variable "vcenter_details" {
     }
   )
   default = {
-    cluster = "fb-radha-hosts"
+    cluster = "cluster1"
     dc = ""
-    vsphere_server = "10.21.93.100" 
+    vsphere_server = "10.x.x.x" 
     vsphere_user = "Administrator"
   }
   
@@ -46,7 +46,7 @@ variable "vm_compute" {
     vm_ip = ["10.0.0.5", "10.0.0.2", "10.0.0.3", "10.0.0.4"]
     vm_memory = 8384
     vm_name = "pds-vmware" 
-    vmware_os_template = "rhel8_packer11082022"
+    vmware_os_template = "rhel8_template"
   }
   
 }
