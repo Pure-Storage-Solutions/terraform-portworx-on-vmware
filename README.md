@@ -6,19 +6,19 @@ The Terraform module automates the end-to-end deployment of Portworx Data Servic
 ## Deploy virtual machines on your Vcenter.
 Each Virtual Machine should have Minimum 8 cpu and 8 GB memory. Also should have at least a minimum of 3 disks: 1 for OS, 1 for KVDB and 1 or more disks for Portworx storage pools. 
 This is tested with RHEL 8 and Vcenter should have a valid OS template for RHEL 8. Following Vcneter information should be available to build the required VMs.
-    - Vcenter name or IP
-    - Vcenter Administrator user
-    - VMware DC name
-    - VMware cluster name
-    - IP subnet to build the VM
-    - Netmask for the VM subnet
-    - Default network gateway for the VM
-    - Name of the VMware subnet configured
-    - List of DNS servers to use
-    - Internal domain name
-    - Size of the data disk
-    - VMware datastore to create OS disk
-    - VMware datastore to create Data disk
+- Vcenter name or IP
+- Vcenter Administrator user
+- VMware DC name
+- VMware cluster name
+- IP subnet to build the VM
+- Netmask for the VM subnet
+- Default network gateway for the VM
+- Name of the VMware subnet configured
+- List of DNS servers to use
+- Internal domain name
+- Size of the data disk
+- VMware datastore to create OS disk
+- VMware datastore to create Data disk
 
 
 ### Onboarding to Portworx Data Services (PDS)
@@ -107,11 +107,11 @@ The ANSIBLE_PRIVATE_KEY_FILE variable provides the location of the private key t
 
 2. Clone the GitHub repository:
 ```
-# git clone https://github.com/PureStorage-OpenConnect/terraform-portworx-on-baremetal.git
+# git clone https://github.com/Pure-Storage-Solutions/terraform-portworx-on-vmware.git
 ```
 3. Go to the directory that contains the Terraform module setup files:
 ```
-cd terraform-portworx-on-baremetal
+cd terraform-portworx-on-vmware
 ```
 4. Install the tools that are prerequisites to install the Terraform module: 
 ```
@@ -209,6 +209,6 @@ For more information, see the [Deploy a Data Service](https://pds.docs.portworx.
 ## Destroying the Environment
 To destroy the environment completely, run the following command: 
 ```
-# terraform destroy -var "metal_auth_token=*****" -var "tenant_id=****" -var "pds_token=******" -var "metal_project_id=******"
+# terraform destroy -var "vsphere_password=*****" -var "tenant_id=****" -var "pds_token=******" 
 ```
 
