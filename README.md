@@ -5,7 +5,7 @@ The Terraform module automates the end-to-end deployment of Portworx Data Servic
 ## Prerequisites
 ## Deploy virtual machines on your Vcenter.
 Each Virtual Machine should have Minimum 8 cpu and 8 GB memory. Also should have at least a minimum of 3 disks: 1 for OS, 1 for KVDB and 1 or more disks for Portworx storage pools. 
-This is tested with RHEL 8 and Vcenter should have a valid OS template for RHEL 8. Following Vcneter information should be available to build the required VMs.
+This is tested with RHEL 8 and Vcenter should have a valid OS template for RHEL 8 with a valid RHEL8 yum repo configured. Following Vcneter information should be available to build the required VMs.
 - Vcenter name or IP
 - Vcenter Administrator user
 - VMware DC name
